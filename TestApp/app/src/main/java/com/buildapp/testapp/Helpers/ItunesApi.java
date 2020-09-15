@@ -13,4 +13,5 @@ public interface ItunesApi
 {
     @GET("search?mediaType=music&limit=100")
     Call<ApiResponse> getSongByTerm(@Query("term") String termValue);
+
 }

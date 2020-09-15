@@ -3,19 +3,17 @@ package com.buildapp.testapp.Helpers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.text.Editable;
+import android.view.View;
+import android.widget.Toast;
 
 import com.buildapp.testapp.Data.ApiResponse;
 import com.buildapp.testapp.Data.Song;
-import com.buildapp.testapp.MainActivity;
 import com.buildapp.testapp.R;
 import com.buildapp.testapp.ui.Adapters.SongAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,11 +60,23 @@ public class Controller implements Callback<ApiResponse>
     {
         if(response.isSuccessful())
         {
-
             ApiResponse serviceResponse = response.body();
-            FillSongs(serviceResponse.getSongList());
+
+            if(serviceResponse.getSongList().size()!=0)
+            {
+                FillSongs(serviceResponse.getSongList());
+                activity.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            }
+            else {
+                activity.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                Toast toast = Toast.makeText(context, "Busqueda no encontrada", Toast.LENGTH_SHORT);
+                toast.show();
+            }
 
         } else {
+            activity.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            Toast toast = Toast.makeText(context, "Problema obteniendo resultado", Toast.LENGTH_SHORT);
+            toast.show();
             System.out.println(response.errorBody());
         }
     }
@@ -81,8 +91,10 @@ public class Controller implements Callback<ApiResponse>
     }
 
     @Override
-    public void onFailure(Call<ApiResponse> call, Throwable t) {
-
+    public void onFailure(Call<ApiResponse> call, Throwable t)
+    {
+        Toast toast = Toast.makeText(context, "Problema de conexion", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     public ApiResponse getSearchresponse() {

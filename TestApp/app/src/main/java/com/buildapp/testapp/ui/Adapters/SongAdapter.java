@@ -45,6 +45,7 @@ public class SongAdapter extends
         nameTextView.setText(song.getTrackName());
         artistTextView.setText(song.getArtistName());
         Glide.with(holder.itemView.getContext()).load(song.getArtworkUrl100()).into(imageView);
+        
     }
 
     @Override
