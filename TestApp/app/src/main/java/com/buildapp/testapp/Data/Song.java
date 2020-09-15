@@ -7,6 +7,7 @@ public class Song
         private String collectionName;
         private int collectionId;
         private String artistName;
+        private String trackName;
         private String artworkUrl100;
 
     public int getTrackId() { return trackId; }
@@ -23,6 +24,9 @@ public class Song
         return artworkUrl100;
     }
 
+    public String getTrackName() {
+        return trackName;
+    }
 
     public int getCollectionId() { return collectionId; }
 }
